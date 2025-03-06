@@ -1,5 +1,4 @@
 # NadVault
-
 NadVault is a decentralized application (dApp) built on the Monad testnet, combining three innovative features:
 
 1. **Mystery Box Launchpad**: Creators can launch NFT-based mystery boxes with a fixed floor price (e.g., 0.1 MON), and users can bid in auctions to win exclusive digital collectibles.
@@ -100,9 +99,3 @@ npm test
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Monad blockchain team
-- OpenZeppelin for smart contract libraries
-- Material-UI for the frontend components
