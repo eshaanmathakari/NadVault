@@ -24,75 +24,108 @@
 
 // export default App;
 // frontend/src/App.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import { ethers } from 'ethers';
-import config from './config';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider, createTheme, CssBaseline, Box } from '@mui/material';
+import { useWeb3 } from './utils/Web3Context';
+
+// Components
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
+// Pages
+import Home from './pages/Home';
+import MysteryBox from './pages/MysteryBox';
+import Vault from './pages/Vault';
+import WalletAnalyzer from './pages/WalletAnalyzer';
+import Profile from './pages/Profile';
 
 function App() {
-  const [wallet, setWallet] = useState('');
-  const [score, setScore] = useState(null);
-  const [lockCount, setLockCount] = useState(null);
-  const [error, setError] = useState('');
-
-  // Function to get score from backend
-  const getScore = async () => {
-    try {
-      const res = await axios.get(`http://localhost:3000/score?wallet=${wallet}`);
-      setScore(res.data.score);
-    } catch (err) {
-      console.error("Error fetching score:", err);
-      setError("Error fetching score. Please try again later.");
-    }
-  };
-
-  // Function to interact with NadVault contract using ethers.js
-  const fetchContractData = async () => {
-    if (!window.ethereum) {
-      setError("MetaMask is not installed.");
-      return;
-    }
-    try {
-      // Request account access if needed
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const nadVaultContract = new ethers.Contract(
-        config.NADVAULT_ADDRESS,
-        config.NADVAULT_ABI,
-        provider
-      );
-
-      // Fetch the total number of locks from the contract
-      const count = await nadVaultContract.lockCount();
-      setLockCount(count.toString());
-    } catch (err) {
-      console.error("Error interacting with contract:", err);
-      setError("Error fetching contract data.");
-    }
-  };
+  // Create a dark theme
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#6a1b9a', // Purple
+      },
+      secondary: {
+        main: '#00b0ff', // Light Blue
+      },
+      background: {
+        default: '#121212',
+        paper: '#1e1e1e',
+      },
+    },
+    typography: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      h1: {
+        fontWeight: 500,
+      },
+      h2: {
+        fontWeight: 500,
+      },
+      h3: {
+        fontWeight: 500,
+      },
+      h4: {
+        fontWeight: 500,
+      },
+      h5: {
+        fontWeight: 500,
+      },
+      h6: {
+        fontWeight: 500,
+      },
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+          },
+        },
+      },
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            borderRadius: 12,
+            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            borderRadius: 12,
+          },
+        },
+      },
+    },
+  });
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1>NadVault Dashboard</h1>
-      <div>
-        <input 
-          type="text"
-          placeholder="Enter your wallet address" 
-          value={wallet} 
-          onChange={(e) => setWallet(e.target.value)}
-          style={{ width: "300px", padding: "8px", marginRight: "10px" }}
-        />
-        <button onClick={getScore} style={{ padding: "8px 12px" }}>Get Score</button>
-      </div>
-      {score !== null && <p>Your score: <strong>{score}</strong></p>}
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={fetchContractData} style={{ padding: "8px 12px" }}>
-          Fetch NadVault Contract Data
-        </button>
-        {lockCount !== null && <p>Total locks in NadVault: <strong>{lockCount}</strong></p>}
-      </div>
-      {error && <p style={{color:'red'}}>{error}</p>}
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}
+      >
+        <Navbar />
+        <Box sx={{ flexGrow: 1, py: 3 }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/mystery-box" element={<MysteryBox />} />
+            <Route path="/vault" element={<Vault />} />
+            <Route path="/wallet-analyzer" element={<WalletAnalyzer />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </Box>
+        <Footer />
+      </Box>
+    </ThemeProvider>
   );
 }
 

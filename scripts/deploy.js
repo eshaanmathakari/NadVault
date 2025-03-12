@@ -1,28 +1,43 @@
 // scripts/deploy.js
+const hre = require("hardhat");
+
 async function main() {
-  // Get the contract factory
-  const NadVault = await ethers.getContractFactory("NadVault");
-  const MysteryBox = await ethers.getContractFactory("MysteryBox");
+  console.log("Deploying contracts to", network.name);
 
-  // Deploy NadVault contract
-  const nadVault = await NadVault.deploy();
-  await nadVault.deployed();
-  console.log("NadVault deployed to:", nadVault.address);
+  // Deploy MysteryBoxLaunchpad
+  const MysteryBoxLaunchpad = await hre.ethers.getContractFactory("MysteryBoxLaunchpad");
+  const mysteryBoxLaunchpad = await MysteryBoxLaunchpad.deploy();
+  await mysteryBoxLaunchpad.deployed();
 
-  // Define initial NFTs for the MysteryBox (example URIs)
-  const initialNFTs = [
-      "ipfs://QmExample1",
-      "ipfs://QmExample2",
-      "ipfs://QmExample3"
-  ];
-  const mysteryBox = await MysteryBox.deploy(initialNFTs);
-  await mysteryBox.deployed();
-  console.log("MysteryBox deployed to:", mysteryBox.address);
+  console.log("MysteryBoxLaunchpad deployed to:", mysteryBoxLaunchpad.address);
+
+  // Deploy TimeLockVault
+  const TimeLockVault = await hre.ethers.getContractFactory("TimeLockVault");
+  const timeLockVault = await TimeLockVault.deploy();
+  await timeLockVault.deployed();
+
+  console.log("TimeLockVault deployed to:", timeLockVault.address);
+
+  // Save contract addresses to a file for reference
+  const fs = require("fs");
+  const contractAddresses = {
+    MysteryBoxLaunchpad: mysteryBoxLaunchpad.address,
+    TimeLockVault: timeLockVault.address,
+    network: network.name,
+    timestamp: new Date().toISOString()
+  };
+
+  fs.writeFileSync(
+    "frontend/src/contracts/addresses.json",
+    JSON.stringify(contractAddresses, null, 2)
+  );
+
+  console.log("Contract addresses saved to frontend/src/contracts/addresses.json");
 }
 
 main()
-.then(() => process.exit(0))
-.catch((error) => {
+  .then(() => process.exit(0))
+  .catch((error) => {
     console.error(error);
     process.exit(1);
-});
+  });

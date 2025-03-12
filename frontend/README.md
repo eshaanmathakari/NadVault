@@ -1,70 +1,110 @@
-# Getting Started with Create React App
+# NadVault Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern React application for interacting with the NadVault dApp on the Monad testnet.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Mystery Box Launchpad**: Create and bid on NFT mystery boxes with auction functionality
+- **Time-Locked Vaults**: Lock tokens with memories and generate yield over time
+- **Wallet Analyzer**: Analyze wallet activity and get insights about your on-chain presence
+- **User Profile**: View your activity across the platform
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 18
+- Material-UI (MUI) for UI components
+- React Router for navigation
+- ethers.js for blockchain interactions
+- Dark mode UI
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v16+)
+- npm or yarn
+- MetaMask or another Ethereum-compatible wallet with Monad testnet configured
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/NadVault.git
+   cd NadVault/frontend
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies:
+   ```
+   npm install
+   ```
+   or
+   ```
+   yarn install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Create a `.env` file in the frontend directory with the following variables:
+   ```
+   REACT_APP_MONAD_RPC_URL=https://rpc.monad.xyz/testnet
+   REACT_APP_CHAIN_ID=1337
+   ```
 
-### `npm run eject`
+4. Start the development server:
+   ```
+   npm start
+   ```
+   or
+   ```
+   yarn start
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Connecting to Monad Testnet
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+To interact with the dApp, you'll need to configure your MetaMask wallet to connect to the Monad testnet:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Open MetaMask and go to Settings > Networks > Add Network
+2. Enter the following details:
+   - Network Name: Monad Testnet
+   - RPC URL: https://rpc.monad.xyz/testnet
+   - Chain ID: 1337
+   - Currency Symbol: MON
+   - Block Explorer URL: https://explorer.monad.xyz/testnet
 
-## Learn More
+3. Save the network configuration
+4. Request testnet tokens from the [Monad Testnet Faucet](https://faucet.monad.xyz)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Building for Production
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To build the application for production:
 
-### Code Splitting
+```
+npm run build
+```
+or
+```
+yarn build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The build artifacts will be stored in the `build` directory.
 
-### Analyzing the Bundle Size
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+frontend/
+├── public/             # Static files
+├── src/                # Source code
+│   ├── components/     # Reusable UI components
+│   ├── contracts/      # Contract ABIs and addresses
+│   ├── hooks/          # Custom React hooks
+│   ├── pages/          # Page components
+│   ├── utils/          # Utility functions and context providers
+│   ├── App.js          # Main application component
+│   └── index.js        # Application entry point
+├── .env                # Environment variables
+└── package.json        # Dependencies and scripts
+```
 
-### Making a Progressive Web App
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the MIT License - see the LICENSE file for details.
