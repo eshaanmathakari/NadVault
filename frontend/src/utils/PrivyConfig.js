@@ -10,7 +10,7 @@ export const PRIVY_CONFIG = {
   appearance: {
     theme: 'dark',
     accentColor: '#6a1b9a', // Purple to match our theme
-    logo: 'https://your-logo-url.com/logo.png', // Replace with your logo URL
+    logo: '/nadvault_logo.png', // Using the logo from public folder
   },
   
   // Set to true for production

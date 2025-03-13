@@ -80,9 +80,12 @@ function Navbar() {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        NadVault
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', my: 2 }}>
+        <img src="/nadvault_logo.png" alt="NadVault Logo" style={{ height: 30, marginRight: 8 }} />
+        <Typography variant="h6">
+          NadVault
+        </Typography>
+      </Box>
       <Divider />
       <List>
         {pages.map((page) => (
@@ -125,22 +128,29 @@ function Navbar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo for desktop */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            onClick={() => navigate('/')}
+          <Box 
             sx={{
-              mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
-              cursor: 'pointer',
+              alignItems: 'center',
+              mr: 2, 
+              cursor: 'pointer'
             }}
+            onClick={() => navigate('/')}
           >
-            NadVault
-          </Typography>
+            <img src="/nadvault_logo.png" alt="NadVault Logo" style={{ height: 30, marginRight: 8 }} />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                fontWeight: 700,
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              NadVault
+            </Typography>
+          </Box>
 
           {/* Mobile menu button */}
           <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
@@ -171,23 +181,29 @@ function Navbar() {
           </Box>
 
           {/* Logo for mobile */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            onClick={() => navigate('/')}
+          <Box
             sx={{
-              mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
-              cursor: 'pointer',
+              alignItems: 'center',
+              cursor: 'pointer'
             }}
+            onClick={() => navigate('/')}
           >
-            NadVault
-          </Typography>
+            <img src="/nadvault_logo.png" alt="NadVault Logo" style={{ height: 24, marginRight: 8 }} />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                fontWeight: 700,
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              NadVault
+            </Typography>
+          </Box>
 
           {/* Desktop navigation */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
