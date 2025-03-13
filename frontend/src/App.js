@@ -32,6 +32,7 @@ import { useWeb3 } from './utils/Web3Context';
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import Home from './pages/Home';
@@ -117,10 +118,38 @@ function App() {
         <Box sx={{ flexGrow: 1, py: 3 }}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/mystery-box" element={<MysteryBox />} />
-            <Route path="/vault" element={<Vault />} />
-            <Route path="/wallet-analyzer" element={<WalletAnalyzer />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route 
+              path="/mystery-box" 
+              element={
+                <ProtectedRoute>
+                  <MysteryBox />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/vault" 
+              element={
+                <ProtectedRoute>
+                  <Vault />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/wallet-analyzer" 
+              element={
+                <ProtectedRoute>
+                  <WalletAnalyzer />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/profile" 
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              } 
+            />
           </Routes>
         </Box>
         <Footer />

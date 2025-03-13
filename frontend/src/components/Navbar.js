@@ -19,14 +19,15 @@ import {
   Divider,
   useTheme,
   useMediaQuery,
+  Chip,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useWeb3 } from '../utils/Web3Context';
+import { usePrivyAuth } from '../hooks/usePrivyAuth';
 
 const pages = [
-  { name: 'Home', path: '/' },
   { name: 'Mystery Box', path: '/mystery-box' },
   { name: 'Vault', path: '/vault' },
   { name: 'Wallet Analyzer', path: '/wallet-analyzer' },
@@ -38,7 +39,16 @@ const settings = [
 ];
 
 function Navbar() {
-  const { account, connectWallet, disconnectWallet } = useWeb3();
+  const { 
+    account, 
+    connectWallet, 
+    disconnectWallet, 
+    authenticated,
+    user,
+    activeWallet,
+    chainId,
+  } = usePrivyAuth();
+  
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
@@ -89,6 +99,26 @@ function Navbar() {
       </List>
     </Box>
   );
+
+  // Get user display name or address
+  const getUserDisplayName = () => {
+    if (user?.email) {
+      return user.email.address;
+    } else if (account) {
+      return `${account.slice(0, 6)}...${account.slice(-4)}`;
+    }
+    return 'User';
+  };
+
+  // Get avatar content
+  const getAvatarContent = () => {
+    if (user?.email) {
+      return user.email.address.charAt(0).toUpperCase();
+    } else if (account) {
+      return account.slice(2, 4).toUpperCase();
+    }
+    return 'U';
+  };
 
   return (
     <AppBar position="static">
@@ -177,14 +207,24 @@ function Navbar() {
             ))}
           </Box>
 
+          {/* Network indicator */}
+          {authenticated && chainId && (
+            <Chip 
+              label={chainId === 1337 ? "Monad Testnet" : `Chain ID: ${chainId}`}
+              color="secondary"
+              size="small"
+              sx={{ mr: 2 }}
+            />
+          )}
+
           {/* Wallet connection and user menu */}
           <Box sx={{ flexGrow: 0 }}>
-            {account ? (
+            {authenticated ? (
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar sx={{ bgcolor: 'secondary.main' }}>
-                      {account.slice(2, 4).toUpperCase()}
+                      {getAvatarContent()}
                     </Avatar>
                   </IconButton>
                 </Tooltip>
@@ -206,7 +246,7 @@ function Navbar() {
                 >
                   <MenuItem disabled>
                     <Typography textAlign="center" noWrap>
-                      {account.slice(0, 6)}...{account.slice(-4)}
+                      {getUserDisplayName()}
                     </Typography>
                   </MenuItem>
                   <Divider />
@@ -220,11 +260,11 @@ function Navbar() {
             ) : (
               <Button
                 variant="outlined"
-                startIcon={<AccountBalanceWalletIcon />}
+                startIcon={<PersonIcon />}
                 onClick={connectWallet}
                 sx={{ color: 'white', borderColor: 'white' }}
               >
-                Connect Wallet
+                Sign In
               </Button>
             )}
           </Box>

@@ -20,7 +20,8 @@ import {
   Button,
 } from '@mui/material';
 import { ethers } from 'ethers';
-import { useWeb3 } from '../utils/Web3Context';
+import { usePrivyAuth } from '../hooks/usePrivyAuth';
+import UserProfileCard from '../components/UserProfileCard';
 import MysteryBoxLaunchpadABI from '../contracts/MysteryBoxLaunchpad.json';
 import TimeLockVaultABI from '../contracts/TimeLockVault.json';
 import contractAddresses from '../contracts/addresses.json';
@@ -31,7 +32,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import { useNavigate } from 'react-router-dom';
 
 function Profile() {
-  const { account, provider } = useWeb3();
+  const { account, provider, authenticated, user } = usePrivyAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [tabValue, setTabValue] = useState(0);
@@ -174,7 +175,7 @@ function Profile() {
     return `${days}d ${hours}h ${minutes}m`;
   };
 
-  if (!account) {
+  if (!authenticated) {
     return (
       <Container maxWidth="lg">
         <Box sx={{ my: 4, textAlign: 'center' }}>
@@ -182,7 +183,7 @@ function Profile() {
             Profile
           </Typography>
           <Alert severity="info" sx={{ mb: 2 }}>
-            Please connect your wallet to view your profile.
+            Please sign in to view your profile.
           </Alert>
         </Box>
       </Container>
@@ -196,23 +197,8 @@ function Profile() {
           Your Profile
         </Typography>
         
-        <Paper sx={{ mb: 3, p: 3 }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <Avatar sx={{ width: 64, height: 64, bgcolor: 'primary.main' }}>
-                {account.slice(2, 4).toUpperCase()}
-              </Avatar>
-            </Grid>
-            <Grid item xs>
-              <Typography variant="h6">
-                {account.slice(0, 6)}...{account.slice(-4)}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Joined NadVault on Monad Testnet
-              </Typography>
-            </Grid>
-          </Grid>
-        </Paper>
+        {/* User Profile Card */}
+        <UserProfileCard />
 
         <Paper sx={{ mb: 4 }}>
           <Tabs

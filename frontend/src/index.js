@@ -4,19 +4,31 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Web3Provider } from './utils/Web3Context';
+import { PrivyProvider } from '@privy-io/react-auth';
+import { PRIVY_CONFIG } from './utils/PrivyConfig';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+// Check if the environment variable is being loaded correctly
+console.log('Privy App ID:', process.env.REACT_APP_PRIVY_APP_ID);
+console.log('PRIVY_CONFIG.appId:', PRIVY_CONFIG.appId);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Web3Provider>
+      <PrivyProvider
+        appId="cm87p4kbi034zfp9n44cb8e1k"
+        config={{
+          loginMethods: PRIVY_CONFIG.loginMethods,
+          appearance: PRIVY_CONFIG.appearance,
+          embeddedWallets: PRIVY_CONFIG.embeddedWallets,
+        }}
+      >
         <App />
-      </Web3Provider>
+      </PrivyProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

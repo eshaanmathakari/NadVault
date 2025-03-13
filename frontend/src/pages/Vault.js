@@ -28,7 +28,7 @@ import {
   Avatar,
 } from '@mui/material';
 import { ethers } from 'ethers';
-import { useWeb3 } from '../utils/Web3Context';
+import { usePrivyAuth } from '../hooks/usePrivyAuth';
 import TimeLockVaultABI from '../contracts/TimeLockVault.json';
 import contractAddresses from '../contracts/addresses.json';
 import LockIcon from '@mui/icons-material/Lock';
@@ -38,7 +38,7 @@ import NoteIcon from '@mui/icons-material/Note';
 import PaymentIcon from '@mui/icons-material/Payment';
 
 function Vault() {
-  const { account, provider } = useWeb3();
+  const { account, provider, signer, authenticated, isConnecting } = usePrivyAuth();
   const [loading, setLoading] = useState(false);
   const [vaults, setVaults] = useState([]);
   const [selectedVault, setSelectedVault] = useState(null);
@@ -78,7 +78,7 @@ function Vault() {
       const contract = new ethers.Contract(
         contractAddresses.TimeLockVault,
         TimeLockVaultABI.abi,
-        provider
+        signer
       );
 
       const vaultIds = await contract.getUserVaults(account);
@@ -117,7 +117,7 @@ function Vault() {
       const contract = new ethers.Contract(
         contractAddresses.TimeLockVault,
         TimeLockVaultABI.abi,
-        provider
+        signer
       );
 
       const fee = await contract.getSubscriptionFee(account);
@@ -133,7 +133,7 @@ function Vault() {
       const contract = new ethers.Contract(
         contractAddresses.TimeLockVault,
         TimeLockVaultABI.abi,
-        provider
+        signer
       );
 
       const memories = await contract.getVaultMemories(vaultId);
@@ -162,7 +162,6 @@ function Vault() {
 
     try {
       setLoading(true);
-      const signer = provider.getSigner();
       const contract = new ethers.Contract(
         contractAddresses.TimeLockVault,
         TimeLockVaultABI.abi,
@@ -246,7 +245,6 @@ function Vault() {
 
     try {
       setLoading(true);
-      const signer = provider.getSigner();
       const contract = new ethers.Contract(
         contractAddresses.TimeLockVault,
         TimeLockVaultABI.abi,
@@ -304,7 +302,6 @@ function Vault() {
 
     try {
       setLoading(true);
-      const signer = provider.getSigner();
       const contract = new ethers.Contract(
         contractAddresses.TimeLockVault,
         TimeLockVaultABI.abi,
@@ -357,7 +354,6 @@ function Vault() {
 
     try {
       setLoading(true);
-      const signer = provider.getSigner();
       const contract = new ethers.Contract(
         contractAddresses.TimeLockVault,
         TimeLockVaultABI.abi,
@@ -431,7 +427,7 @@ function Vault() {
             variant="outlined"
             color="primary"
             onClick={() => setOpenSubscriptionDialog(true)}
-            disabled={!account}
+            disabled={!authenticated}
           >
             Pay Subscription
           </Button>
@@ -439,20 +435,26 @@ function Vault() {
             variant="contained"
             color="primary"
             onClick={() => setOpenCreateDialog(true)}
-            disabled={!account}
+            disabled={!authenticated}
           >
             Create Vault
           </Button>
         </Box>
       </Box>
 
-      {!account && (
+      {!authenticated && (
         <Alert severity="info" sx={{ mb: 4 }}>
           Please connect your wallet to interact with vaults.
         </Alert>
       )}
 
-      {account && (
+      {authenticated && isConnecting && (
+        <Alert severity="info" sx={{ mb: 4 }}>
+          Connecting to your wallet...
+        </Alert>
+      )}
+
+      {authenticated && !isConnecting && (
         <Paper sx={{ mb: 4, p: 2 }}>
           <Typography variant="h6" gutterBottom>
             Your Subscription

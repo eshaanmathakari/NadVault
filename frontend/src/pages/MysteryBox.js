@@ -20,12 +20,12 @@ import {
   Snackbar,
 } from '@mui/material';
 import { ethers } from 'ethers';
-import { useWeb3 } from '../utils/Web3Context';
+import { usePrivyAuth } from '../hooks/usePrivyAuth';
 import MysteryBoxLaunchpadABI from '../contracts/MysteryBoxLaunchpad.json';
 import contractAddresses from '../contracts/addresses.json';
 
 function MysteryBox() {
-  const { account, provider } = useWeb3();
+  const { account, provider, signer, authenticated, isConnecting } = usePrivyAuth();
   const [loading, setLoading] = useState(false);
   const [mysteryBoxes, setMysteryBoxes] = useState([]);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -41,10 +41,10 @@ function MysteryBox() {
   const [bidAmount, setBidAmount] = useState('');
 
   useEffect(() => {
-    if (account && provider) {
+    if (authenticated && account && provider) {
       fetchMysteryBoxes();
     }
-  }, [account, provider]);
+  }, [authenticated, account, provider]);
 
   const fetchMysteryBoxes = async () => {
     try {
@@ -89,7 +89,6 @@ function MysteryBox() {
 
     try {
       setLoading(true);
-      const signer = provider.getSigner();
       const contract = new ethers.Contract(
         contractAddresses.MysteryBoxLaunchpad,
         MysteryBoxLaunchpadABI.abi,
@@ -150,7 +149,6 @@ function MysteryBox() {
 
     try {
       setLoading(true);
-      const signer = provider.getSigner();
       const contract = new ethers.Contract(
         contractAddresses.MysteryBoxLaunchpad,
         MysteryBoxLaunchpadABI.abi,
@@ -204,7 +202,6 @@ function MysteryBox() {
 
     try {
       setLoading(true);
-      const signer = provider.getSigner();
       const contract = new ethers.Contract(
         contractAddresses.MysteryBoxLaunchpad,
         MysteryBoxLaunchpadABI.abi,
@@ -274,15 +271,21 @@ function MysteryBox() {
           variant="contained"
           color="primary"
           onClick={() => setOpenCreateDialog(true)}
-          disabled={!account}
+          disabled={!authenticated}
         >
           Create Mystery Box
         </Button>
       </Box>
 
-      {!account && (
+      {!authenticated && (
         <Alert severity="info" sx={{ mb: 4 }}>
           Please connect your wallet to interact with mystery boxes.
+        </Alert>
+      )}
+
+      {authenticated && isConnecting && (
+        <Alert severity="info" sx={{ mb: 4 }}>
+          Connecting to your wallet...
         </Alert>
       )}
 
@@ -292,7 +295,7 @@ function MysteryBox() {
         </Box>
       )}
 
-      {!loading && mysteryBoxes.length === 0 && (
+      {!loading && mysteryBoxes.length === 0 && authenticated && !isConnecting && (
         <Alert severity="info" sx={{ mb: 4 }}>
           No active mystery boxes found. Create one to get started!
         </Alert>

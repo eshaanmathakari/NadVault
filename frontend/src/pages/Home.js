@@ -19,9 +19,11 @@ import LockIcon from '@mui/icons-material/Lock';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { usePrivyAuth } from '../hooks/usePrivyAuth';
+import PersonIcon from '@mui/icons-material/Person';
 
 function Home() {
-  const { account, connectWallet } = useWeb3();
+  const { authenticated, connectWallet, user } = usePrivyAuth();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -93,15 +95,15 @@ function Home() {
                 A decentralized platform for mystery box auctions, time-locked vaults, and wallet analytics on the Monad testnet.
               </Typography>
               <Box sx={{ mt: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                {!account ? (
+                {!authenticated ? (
                   <Button
                     variant="contained"
                     size="large"
                     color="primary"
-                    startIcon={<AccountBalanceWalletIcon />}
+                    startIcon={<PersonIcon />}
                     onClick={connectWallet}
                   >
-                    Connect Wallet
+                    Sign In
                   </Button>
                 ) : (
                   <Button
@@ -172,15 +174,15 @@ function Home() {
             Connect your wallet and start exploring the features of NadVault on the Monad testnet.
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, gap: 2, flexWrap: 'wrap' }}>
-            {!account ? (
+            {!authenticated ? (
               <Button
                 variant="contained"
                 size="large"
                 color="primary"
-                startIcon={<AccountBalanceWalletIcon />}
+                startIcon={<PersonIcon />}
                 onClick={connectWallet}
               >
-                Connect Wallet
+                Sign In
               </Button>
             ) : (
               <Button

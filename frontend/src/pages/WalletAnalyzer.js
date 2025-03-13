@@ -13,10 +13,10 @@ import {
   CardContent,
   Divider,
 } from '@mui/material';
-import { useWeb3 } from '../utils/Web3Context';
+import { usePrivyAuth } from '../hooks/usePrivyAuth';
 
 function WalletAnalyzer() {
-  const { account } = useWeb3();
+  const { account, authenticated, isConnecting } = usePrivyAuth();
   const [walletAddress, setWalletAddress] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -86,7 +86,7 @@ function WalletAnalyzer() {
               variant="contained"
               color="primary"
               onClick={handleAnalyze}
-              disabled={loading}
+              disabled={loading || (isConnecting && !walletAddress)}
             >
               {loading ? <CircularProgress size={24} /> : 'Analyze Wallet'}
             </Button>
@@ -96,6 +96,18 @@ function WalletAnalyzer() {
         {error && (
           <Alert severity="error" sx={{ mt: 2 }}>
             {error}
+          </Alert>
+        )}
+        
+        {!authenticated && (
+          <Alert severity="info" sx={{ mt: 2 }}>
+            Connect your wallet to automatically analyze your address, or enter any address manually.
+          </Alert>
+        )}
+        
+        {authenticated && isConnecting && (
+          <Alert severity="info" sx={{ mt: 2 }}>
+            Connecting to your wallet...
           </Alert>
         )}
       </Paper>
