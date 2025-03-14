@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e4ea3c5b-cd29-46a6-80c7-09d4d618b44a/deploy-status)](https://app.netlify.com/sites/nadvault/deploys)
+
 # NadVault
 NadVault is a decentralized application (dApp) built on the Monad testnet, combining three innovative features:
 
