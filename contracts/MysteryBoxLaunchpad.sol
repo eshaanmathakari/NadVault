@@ -39,7 +39,7 @@ contract MysteryBoxLaunchpad is ERC721URIStorage, Ownable, ReentrancyGuard {
     event AuctionEnded(uint256 indexed boxId, address indexed winner, uint256 amount);
     event TokenMinted(uint256 indexed boxId, uint256 indexed tokenId, address indexed owner);
 
-    constructor() ERC721("NadVault Mystery Box", "NVBOX") Ownable(msg.sender) {}
+    constructor() ERC721("NadVault Mystery Box", "NVBOX") Ownable() {}
 
     function createMysteryBox(
         uint256 _floorPrice,

@@ -38,7 +38,7 @@ contract TimeLockVault is Ownable, ReentrancyGuard {
     event VaultUnlocked(uint256 indexed vaultId, address indexed owner, uint256 amount);
     event SubscriptionPaid(address indexed user, uint256 amount);
 
-    constructor() Ownable(msg.sender) {}
+    constructor() Ownable() {}
 
     function createVault(
         address _token,

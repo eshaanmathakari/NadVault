@@ -1,6 +1,6 @@
 {
-  "MysteryBoxLaunchpad": "0x0000000000000000000000000000000000000000",
-  "TimeLockVault": "0x0000000000000000000000000000000000000000",
-  "network": "monad-testnet",
-  "timestamp": "2023-03-12T00:00:00.000Z"
-} 
+  "MysteryBoxLaunchpad": "0x056B258E5829a5D249F39Ad2d2D3eBaC303cB779",
+  "TimeLockVault": "0x0cDB0253D440b4505E41496Cda6943b84020f731",
+  "network": "monadTestnet",
+  "timestamp": "2025-03-14T03:11:09.029Z"
+}

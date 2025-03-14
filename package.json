@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
     "dotenv": "^16.4.7",
     "ethers": "^5.7.2",
     "hardhat": "^2.22.19"
