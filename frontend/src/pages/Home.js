@@ -124,13 +124,13 @@ function Home() {
   ];
 
   return (
-    <Box>
+    <Box sx={{ mt: 0, pb: 0 }}>
       {/* Hero Section - Full-width gradient background with animated elements */}
       <Box
         sx={{
           position: 'relative',
           color: 'white',
-          mb: 6,
+          mb: 4,
           overflow: 'hidden',
           background: 'linear-gradient(135deg, #1e0338 0%, #570e97 50%, #1e0338 100%)',
           boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
@@ -514,7 +514,7 @@ function Home() {
       </Box>
 
       {/* How It Works Section */}
-      <Container maxWidth="lg" sx={{ mb: 10 }}>
+      <Container maxWidth="lg" sx={{ mb: 6 }}>
         <Typography 
           variant="h3" 
           component="h2" 
@@ -670,11 +670,12 @@ function Home() {
       {/* Final CTA Section */}
       <Box sx={{ 
         bgcolor: 'background.paper', 
-        py: 10,
+        py: 8,
         background: 'linear-gradient(135deg, #1e0338 0%, #570e97 100%)',
         color: 'white',
         position: 'relative',
         overflow: 'hidden',
+        mb: 0,
       }}>
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
           <Box sx={{ textAlign: 'center' }}>

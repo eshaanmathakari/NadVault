@@ -25,7 +25,7 @@
 // export default App;
 // frontend/src/App.js
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme, CssBaseline, Box } from '@mui/material';
 import { useWeb3 } from './utils/Web3Context';
 
@@ -42,6 +42,9 @@ import WalletAnalyzer from './pages/WalletAnalyzer';
 import Profile from './pages/Profile';
 
 function App() {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   // Create a dark theme
   const darkTheme = createTheme({
     palette: {
@@ -152,7 +155,7 @@ function App() {
         }}
       >
         <Navbar />
-        <Box sx={{ flexGrow: 1, py: 3 }}>
+        <Box sx={{ flexGrow: 1, py: isHomePage ? 0 : 3 }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route 
